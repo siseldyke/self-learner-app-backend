@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
-const SALT_LENGTH = 14;
+const SALT_LENGTH = 12;
 
 router.post('/signup', async (req, res) => {
     try {
@@ -19,7 +19,7 @@ router.post('/signup', async (req, res) => {
         })
         res.status(201).json({ user });
     } catch (error) {
-       
+        res.status(400).json({ error: error.message });
     }
 });
 module.exports = router;
