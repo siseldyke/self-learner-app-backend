@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const testJWTRouter = require ('./controllers/test-jwt')
 const usersRouter = require ('./controllers/users')
+const profilesRouter = require('./controllers/profiles')
 
 
 
@@ -25,4 +26,5 @@ app.listen(3000, () => {
 
 
 app.use('/test-jwt', testJWTRouter)
-app.use('/users' , usersRouter)    
+app.use('/users' , usersRouter)
+app.use('/profiles', profilesRouter)    
