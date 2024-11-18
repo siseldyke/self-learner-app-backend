@@ -9,7 +9,7 @@ const questionnaireSchema = mongoose.Schema({
     questions: [
       {
         question: { type: String, required: true },
-        type: { type: String, enum: ['single-choice', 'multiple-choice', 'text'], required: true },
+        type: { type: String, enum: ['single-choice', 'multiple-choice'], required: true },
         options: [
           {
             text: { type: String, required: true },
