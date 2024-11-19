@@ -5,7 +5,7 @@ const questionnaireSchema = mongoose.Schema({
     description: { type: String, required: true },
     interestCat: { type: String, required: true },
     img: { type: String },
-    createdBy: {type: mongoose.schema.Types.ObjectId, ref: 'User', required: true},
+    createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false},
     questions: [
       {
         question: { type: String, required: true },
