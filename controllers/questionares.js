@@ -47,12 +47,12 @@ router.get('/', async (req, res) => {
 
   router.get('/:questionaresId', async (req, res) => {
     try {
-      const foundQuestionnaires = await Questionnaire.findById(req.params.questionaresId);
-      if (!foundQuestionnaires) {
+      const foundQuestionnaire = await Questionnaire.findById(req.params.questionaresId);
+      if (!foundQuestionnaire) {
         res.status(404);
         throw new Error('Questionnaire not found.');
       }
-      res.status(200).json(foundQuestionnaires);
+      res.status(200).json(foundQuestionnaire);
     } catch (error) {
       if (res.statusCode === 404) {
         res.json({ error: error.message });
@@ -62,4 +62,38 @@ router.get('/', async (req, res) => {
     }
   });
 
+  router.delete('/:questionaresId', async (req, res) => {
+    try { const foundQuestionnaire = await Questionnaire.findByIdAndDelete(req.params.questionaresId)
+        
+        if (!foundQuestionnaire) {
+            res.status(404)
+            throw new Error('This is a test error');
+        }
+        res.status(200).json(`${foundQuestionnaire.title} has been deleted.`);
+        } catch (error) {
+            if (res.statusCode === 404) {
+                res.json({ error: error.message });
+              } else {
+             res.status(500).json({ error: error.message });
+        }
+    }
+  });
+
+  router.put('/:questionaresId', async (req, res) => {
+    try {
+      const updatedQuestionnaire = await Questionnaire.findByIdAndUpdate(req.params.questionaresId, req.body,  {new: true,});
+      if (!updatedQuestionnaire) {
+        res.status(404);
+        throw new Error('Questionnaire not found.');
+      }
+      res.status(200).json(updatedQuestionnaire);
+    } catch (error) {
+      
+      if (res.statusCode === 404) {
+        res.json({ error: error.message });
+      } else {
+        res.status(500).json({ error: error.message });
+      }
+    }
+  });
 module.exports = router
