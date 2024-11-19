@@ -11,7 +11,7 @@ const isAuthenticated = (req, res, next) => {
 }
 
 router.post('/',  async (req, res) => {
-    try { console.log('testing')
+    try { 
         const { title, description, img, createdBy, questions, results, interestCat, approved } = req.body;
 
         if (!title || !description || !questions || !results || !interestCat || typeof approved !=='boolean') {
@@ -36,5 +36,30 @@ router.post('/',  async (req, res) => {
     }
 })
 
+router.get('/', async (req, res) => {
+    try {
+      const foundQuestionnaires = await Questionnaire.find();
+      res.status(200).json(foundQuestionnaires);
+    } catch (error) {
+      res.status(500).json({ error: error.message }); 
+    }
+  });
+
+  router.get('/:questionaresId', async (req, res) => {
+    try {
+      const foundQuestionnaires = await Questionnaire.findById(req.params.questionaresId);
+      if (!foundQuestionnaires) {
+        res.status(404);
+        throw new Error('Questionnaire not found.');
+      }
+      res.status(200).json(foundQuestionnaires);
+    } catch (error) {
+      if (res.statusCode === 404) {
+        res.json({ error: error.message });
+      } else {
+        res.status(500).json({ error: error.message });
+      }
+    }
+  });
 
 module.exports = router
