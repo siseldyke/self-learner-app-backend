@@ -11,6 +11,8 @@ const profilesRouter = require('./controllers/profiles')
 const questionareRouter = require('./controllers/questionares')
 const categoriesRouter = require('./controllers/categories')
 
+const PORT = process.env.PORT ? process.env.PORT : 3005;
+
 mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on('connected', () => {
@@ -21,7 +23,7 @@ app.use(express.json());
 app.use(cors())
 
 
-app.listen(3005, () => {
+app.listen(PORT, () => {
   console.log('The express app is ready!');
 });
 
