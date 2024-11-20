@@ -22,6 +22,9 @@ mongoose.connection.on('connected', () => {
 app.use(express.json());
 app.use(cors())
 
+app.get('/', (req, res) => {
+  res.send('Sprout Backend is Running')
+})
 
 app.listen(PORT, () => {
   console.log('The express app is ready!');
