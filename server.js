@@ -26,13 +26,15 @@ app.get('/', (req, res) => {
   res.send('Sprout Backend is Running')
 })
 
-app.listen(PORT, () => {
-  console.log('The express app is ready!');
-});
-
 
 app.use('/test-jwt', testJWTRouter)
 app.use('/users' , usersRouter)
 app.use('/profiles', profilesRouter) 
 app.use('/questionares' , questionareRouter)   
 app.use('/categories', categoriesRouter)
+
+app.listen(PORT, () => {
+  console.log('The express app is ready!');
+});
+
+
