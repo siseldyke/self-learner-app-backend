@@ -19,7 +19,7 @@ router.post('/signup', async (req, res) => {
         hashedPassword: bcrypt.hashSync(req.body.password, SALT_LENGTH),
       });
       const token = jwt.sign(
-        { username: user.username, _id: user._id },
+        { username: user.username, _id: user._id},
         process.env.JWT_SECRET
       );
       res.status(201).json({ user, token });
@@ -33,7 +33,7 @@ router.post('/signin', async (req, res) => {
       const user = await User.findOne({ username: req.body.username });
       if (user && bcrypt.compareSync(req.body.password, user.hashedPassword)) {
         const token = jwt.sign(
-          { username: user.username, _id: user._id },
+          { username: user.username, _id: user._id, mentorStatus: user.mentorStatus, fitnessPoints: user.fitnessPoints, videoGamesPoints: user.videoGamesPoints, boardGamesPoints: user.boardGamesPoints, musicInsPoints: user.musicInsPoints, isNewAccount: user.isNewAccount },
           process.env.JWT_SECRET
         );
         res.status(200).json({ token });
