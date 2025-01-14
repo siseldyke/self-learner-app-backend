@@ -100,41 +100,25 @@ router.get('/', async (req, res) => {
 
 router.post('/:questionaresId/submit', async (req, res) => {
   try {
-    console.log('Request body:', req.body); // Log the request body
     const { answers, userId } = req.body;
-    console.log('Questionnaire ID:', req.params.questionaresId); // Log the questionnaire ID
-    console.log('User ID:', userId); // Log the user ID
-    console.log('Answers:', answers); // Log the answers
-
     const questionnaire = await Questionnaire.findById(req.params.questionaresId);
     if (!questionnaire) {
-      console.log('Questionnaire not found');
       return res.status(404).json({ error: 'Questionnaire not found.' });
     }
 
     const user = await User.findById(userId);
     if (!user) {
-      console.log('User not found');
       return res.status(404).json({ error: 'User not found.' });
     }
 
-    // Calculate scores based on the answers
     const result = calculatePoints(questionnaire, answers);
-
-    // Log the points to verify
-    console.log('Points:', result);
-
-    // Update the user’s points with validation
     user.fitnessPoints = Math.min(user.fitnessPoints + result.fitnessPoints, 20);
     user.videoGamesPoints = Math.min(user.videoGamesPoints + result.videoGamesPoints, 20);
     user.boardGamesPoints = Math.min(user.boardGamesPoints + result.boardGamesPoints, 20);
     user.musicInsPoints = Math.min(user.musicInsPoints + result.musicInsPoints, 20);
 
-    console.log('Updated User Points:', user.fitnessPoints, user.videoGamesPoints, user.boardGamesPoints, user.musicInsPoints); // Log updated points
-
     await user.save();
 
-    // Determine the highest score and corresponding result
     const maxPoints = Math.max(result.fitnessPoints, result.videoGamesPoints, result.boardGamesPoints, result.musicInsPoints);
     let finalResult = {};
     if (maxPoints === result.fitnessPoints) {
@@ -149,7 +133,7 @@ router.post('/:questionaresId/submit', async (req, res) => {
 
     res.status(200).json({ result, finalResult, message: 'Questionnaire submitted successfully and points updated.' });
   } catch (error) {
-    console.error('Error:', error.message); // Log any errors
+    console.error('Error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -178,8 +162,5 @@ const calculatePoints = (questionnaire, answers) => {
 
   return { fitnessPoints, videoGamesPoints, boardGamesPoints, musicInsPoints };
 };
-
-  
-
 
 module.exports = router

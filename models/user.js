@@ -11,13 +11,14 @@ const userSchema = new Schema(
         musicInsPoints: {type: Number, default: 0, min: 0, max: 20, required: false},
         isNewAccount: {type: Boolean, default: true, required: true}
     },
-
-    {timestamps : true},
+    {timestamps: true},
 )
-const User = mongoose.model('User', userSchema)
+
 userSchema.set('toJSON', {
     transform: (document, returnObject) => {
         delete returnObject.hashedPassword
     }
-}),
+})
+
+const User = mongoose.model('User', userSchema)
 module.exports = User
